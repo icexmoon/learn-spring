@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+    <bean id="userService"
+          class="cn.icexmoon.springdemo.service.impl.UserServiceImpl"
+          autowire="byName"
+          lazy-init="true">
+    </bean>
+    <bean id="userDao"
+          class="cn.icexmoon.springdemo.dao.impl.UserDaoImpl">
+        <constructor-arg type="java.lang.String" value="tom"/>
+        <constructor-arg type="int" value="11"/>
+    </bean>
+    <bean id="tom" class="cn.icexmoon.springdemo.entity.Person">
+        <property name="name" value="Tom"/>
+        <property name="age" value="11"/>
+    </bean>
+    <bean id="liLei" class="cn.icexmoon.springdemo.entity.Person">
+        <property name="name" value="LiLei"/>
+        <property name="age" value="20"/>
+    </bean>
+    <bean id="jack" class="cn.icexmoon.springdemo.entity.Person">
+        <property name="name" value="Jack"/>
+        <property name="age" value="25"/>
+    </bean>
+    <bean class="cn.icexmoon.springdemo.service.impl.CollectionServiceImpl">
+        <property name="persons">
+            <list>
+                <ref bean="jack"/>
+                <ref bean="liLei"/>
+                <ref bean="tom"/>
+            </list>
+        </property>
+        <property name="array">
+            <array>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </array>
+        </property>
+        <property name="list">
+            <list>
+                <value>Tom</value>
+                <value>LiLei</value>
+                <value>Jack</value>
+            </list>
+        </property>
+        <property name="set">
+            <set>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </set>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="country" value="china"/>
+                <entry key="province" value="sichuan"/>
+                <entry key="city" value="chengdu"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="country">china</prop>
+                <prop key="province">sichuan</prop>
+                <prop key="city">chengdu</prop>
+            </props>
+        </property>
+    </bean>
+    <context:property-placeholder location="classpath*:*.properties" system-properties-mode="NEVER"/>
+    <bean class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="driverClassName" value="${jdbc.driver}"/>
+    </bean>
+</beans>
